@@ -6,42 +6,35 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails admin = User.builder()
+        UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
-                .password(passwordEncoder().encode("123")) // Mật khẩu mã hóa
+                .password("123")
                 .roles("ADMIN")
                 .build();
 
-        UserDetails user = User.builder()
-                .username("user")
-                .password(passwordEncoder().encode("123")) // Mật khẩu mã hóa
-                .roles("USER")
+        UserDetails system = User.withDefaultPasswordEncoder()
+                .username("system")
+                .password("123")
+                .roles("SYSTEM")
                 .build();
 
-        return new InMemoryUserDetailsManager(admin, user);
+        return new InMemoryUserDetailsManager(admin, system);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/products/**", "/login").permitAll() // Cho phép truy cập /login
-                        .requestMatchers("/admin/**", "/system/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/home", "/products/**").permitAll()
+                        .requestMatchers("/dashboard/admin").hasRole("ADMIN")
+                        .requestMatchers("/dashboard/system").hasRole("SYSTEM")
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login").permitAll()
@@ -52,5 +45,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }
