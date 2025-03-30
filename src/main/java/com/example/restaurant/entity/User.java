@@ -20,6 +20,7 @@ public class User {
 
     @Email(message = "Email không hợp lệ")
     @NotEmpty(message = "Email không được để trống")
+    @ValidField(minLength = 8, maxLength = 100, requireLetters = true, requireNumbers = false, allowNumbers = true)
     @Column(nullable = false, unique = true)
     private String email;
 

@@ -49,11 +49,10 @@ public class SystemController {
     @PostMapping("/users")
     public String addUser(@Valid @ModelAttribute User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("user", user);
             return "layouts/system/add-user";
         }
         userService.addUser(user);
-        return "redirect:/dashboard/system/users";
+        return "redirect:/dashboard/system/all-users";
     }
 
     // Hiển thị form sửa thông tin User dựa theo ID
@@ -61,7 +60,7 @@ public class SystemController {
     public String showEditUserForm(@PathVariable Integer id, Model model) {
         User user = userService.getUserById(id);
         if (user == null) {
-            return "redirect:/dashboard/system/users";
+            return "redirect:/dashboard/system/all-users";
         }
         model.addAttribute("user", user);
         return "layouts/system/edit-user";
@@ -69,17 +68,22 @@ public class SystemController {
 
     // Xử lý cập nhật thông tin User
     @PostMapping("/users/{id}")
-    public String updateUser(@PathVariable Integer id, @ModelAttribute User user) {
+    public String updateUser(@PathVariable Integer id, @Valid @ModelAttribute User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            // Nếu có lỗi validation, trả về lại trang chỉnh sửa với lỗi
+            model.addAttribute("user", user);
+            return "layouts/system/edit-user";  // Trả về trang chỉnh sửa User với lỗi
+        }
         user.setId(id);
         userService.updateUser(id, user);
-        return "redirect:/dashboard/system/users";
+        return "redirect:/dashboard/system/all-users";
     }
 
     // Xóa User khỏi hệ thống
-    @GetMapping("/users/delete/{id}")
+    @PostMapping("/users/delete/{id}")
     public String deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
-        return "redirect:/dashboard/system/users";
+        return "redirect:/dashboard/system/all-users";
     }
 
     // Hiển thị danh sách quyền của một User theo userId
@@ -131,7 +135,7 @@ public class SystemController {
         }
         model.addAttribute("authority", authority);
         return "layouts/system/edit-authority"; // Trả về trang chỉnh sửa quyền
-    }    
+    }
 
     // Cập nhật quyền
     @PostMapping("/authorities/update")
@@ -139,12 +143,12 @@ public class SystemController {
         authorityService.updateAuthority(id, role);
         return "redirect:/dashboard/system/all-authorities";
     }
-    
 
     // Xóa quyền của một User theo authorityId và userId
-    @GetMapping("/authorities/delete/{id}")
+    @DeleteMapping("/authorities/delete/{id}")
     public String deleteAuthority(@PathVariable Integer id) {
         authorityService.removeAuthority(id);
         return "redirect:/dashboard/system/all-authorities";
-    }    
+    }
+
 }
