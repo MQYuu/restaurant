@@ -22,7 +22,7 @@ public class HomeController {
 
     @GetMapping("/product")
     public String product() {
-        return "layouts/product"; // Trang sản phẩmphẩm
+        return "layouts/product"; // Trang sản phẩm
     }
 
     @GetMapping("/order")

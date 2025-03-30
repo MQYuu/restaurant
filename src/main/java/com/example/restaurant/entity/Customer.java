@@ -1,5 +1,6 @@
 package com.example.restaurant.entity;
 
+import com.example.restaurant.validation.ValidField;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,10 +11,14 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
+    @ValidField(minLength = 3, maxLength = 100, requireLetters = true, requireNumbers = false, allowNumbers = false)
     private String name;
-    
+
+    @ValidField(minLength = 5, maxLength = 100, requireLetters = true, requireNumbers = true, allowNumbers = true)
+    @Column(nullable = false, unique = true)
     private String email;
-    
+
+    @ValidField(minLength = 10, maxLength = 15, requireLetters = false, requireNumbers = true, allowNumbers = true)
     private String phone;
 }

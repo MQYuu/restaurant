@@ -1,6 +1,9 @@
 package com.example.restaurant.entity;
 
+import com.example.restaurant.validation.ValidField;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
@@ -11,12 +14,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ValidField(minLength = 3, maxLength = 50, requireLetters = true, requireNumbers = false, allowNumbers = false)
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Email(message = "Email không hợp lệ")
+    @NotEmpty(message = "Email không được để trống")
     @Column(nullable = false, unique = true)
     private String email;
 
+    @ValidField(minLength = 8, maxLength = 100, requireLetters = true, requireNumbers = true, allowNumbers = true)
     @Column(nullable = false)
     private String password;
 
@@ -39,4 +46,3 @@ public class User {
     public Set<Authority> getAuthorities() { return authorities; }
     public void setAuthorities(Set<Authority> authorities) { this.authorities = authorities; }
 }
-

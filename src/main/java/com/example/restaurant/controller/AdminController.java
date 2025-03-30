@@ -2,12 +2,16 @@ package com.example.restaurant.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.restaurant.entity.Customer;
 import com.example.restaurant.entity.Product;
 import com.example.restaurant.service.CustomerService;
 import com.example.restaurant.service.ProductService;
+
+import jakarta.validation.Valid;
+
 
 @Controller
 @RequestMapping("/dashboard/admin")  // các đường dẫn liên quan đến admin sẽ sử dụng /dashboard/admin làm tiền tố
@@ -49,7 +53,10 @@ public class AdminController {
     }
 
     @PostMapping("/customers")
-    public String addCustomer(@ModelAttribute Customer customer) {
+    public String addCustomer(@Valid @ModelAttribute Customer customer, BindingResult result) {
+        if (result.hasErrors()) {
+            return "layouts/admin/add-customer";  // Nếu có lỗi validation, trả lại form với thông báo lỗi
+        }
         customerService.addCustomer(customer);
         return "redirect:/dashboard/admin/all-customers";
     }
@@ -62,7 +69,10 @@ public class AdminController {
     }
 
     @PostMapping("/customers/update/{id}")
-    public String updateCustomer(@PathVariable Integer id, @ModelAttribute Customer customer) {
+    public String updateCustomer(@PathVariable Integer id, @Valid @ModelAttribute Customer customer, BindingResult result) {
+        if (result.hasErrors()) {
+            return "layouts/admin/edit-customer";  // Nếu có lỗi validation, trả lại form với thông báo lỗi
+        }
         customer.setId(id);
         customerService.updateCustomer(customer);
         return "redirect:/dashboard/admin/all-customers";
@@ -83,7 +93,10 @@ public class AdminController {
     }
 
     @PostMapping("/products/save")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult result) {
+        if (result.hasErrors()) {
+            return "layouts/admin/add-product";  // Nếu có lỗi validation, trả lại form với thông báo lỗi
+        }
         productService.addProduct(product);
         return "redirect:/dashboard/admin/all-products";
     }
@@ -96,18 +109,15 @@ public class AdminController {
     }
 
     @PostMapping("/products/update/{id}")
-    public String updateProduct(@PathVariable Integer id, @ModelAttribute Product product) {
-        System.out.println("Product ID: " + id);
-        System.out.println("Product from form: " + product);
-    
-        if (product.getName() == null) {
-            throw new RuntimeException("Product is null or not binding correctly!");
+    public String updateProduct(@PathVariable Integer id, @Valid @ModelAttribute Product product, BindingResult result) {
+        if (result.hasErrors()) {
+            return "layouts/admin/edit-product";  // Nếu có lỗi validation, trả lại form với thông báo lỗi
         }
-    
+
         product.setId(id);
         productService.updateProduct(product);
         return "redirect:/dashboard/admin/all-products";
-    }       
+    }
 
     // Xóa sản phẩm
     @PostMapping("/products/delete/{id}")
