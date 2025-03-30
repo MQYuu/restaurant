@@ -20,6 +20,11 @@ public class HomeController {
         return "layouts/promo"; // Trang khuyến mãi
     }
 
+    @GetMapping("/product")
+    public String product() {
+        return "layouts/product"; // Trang sản phẩmphẩm
+    }
+
     @GetMapping("/order")
     public String order() {
         return "layouts/order"; // Trang đặt hàng

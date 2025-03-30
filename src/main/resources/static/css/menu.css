@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Header */
+header {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    background-image: url('../images/MenuBackground.jpg'); /* Thay đổi ảnh nền của menu */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+}
+
+/* Hiệu ứng chấm nửa bên trái */
+header::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 140px;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6) 4px, transparent 5px);
+    background-size: 40px 35px;
+    bottom: -70px;
+    left: 20%;
+    transform: translateX(-50%);
+    opacity: 0.8;
+    z-index: 2;
+}
+
+/* Hiệu ứng chấm 3 cột x 5 hàng sát cạnh phải */
+header::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 200px;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6) 4px, transparent 5px);
+    background-size: 40px 40px;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    z-index: 2;
+}
+
+/* Menu header container */
+.header-container {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+/* Menu Section */
+.menu {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    padding: 50px 20px;
+    position: relative;
+    background-color: #E6F0C2; /* Giữ lại màu nền nhẹ cho menu */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Tiêu đề menu */
+.menu h2 {
+    color: #4A6572;
+    font-size: 32px; /* Tăng kích thước font */
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Phần item menu */
+.menu-items {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Mỗi item menu */
+.menu-item {
+    background: white;
+    width: 280px; /* Đổi chiều rộng item */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: scale(1.05); /* Thêm hiệu ứng hover */
+}
+
+/* Hình ảnh trong item menu */
+.menu-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Nội dung trong item menu */
+.menu-content {
+    padding: 15px;
+}
+
+.menu-content h3 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu-content p {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.menu-content span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4A6572;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}

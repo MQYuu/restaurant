@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo - Healthy Food Restaurant</title>
+    <title>Our Products</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
@@ -14,28 +16,30 @@
             <div class="logo">YOUR LOGO</div>
             <nav>
                 <ul>
-                    <li><a th:href="@{/}">Home</a></li>
-                    <li><a th:href="@{/menu}">Our Menu</a></li>
-                    <li><a th:href="@{/listProduct}">Our Product</a></li>
-                    <li><a th:href="@{/promo}">Promo</a></li>
-                    <li><a th:href="@{/order}">Order</a></li>
-                </ul>                
+                    <li><a href="/" th:href="@{/}">Home</a></li>
+                    <li><a href="/menu" th:href="@{/menu}">Our Menu</a></li>
+                    <li><a href="/listProduct" th:href="@{/products}">Products</a></li>
+                    <li><a href="/promo" th:href="@{/promo}">Promo</a></li>
+                    <li><a href="/order" th:href="@{/order}">Order</a></li>
+                </ul>
             </nav>
-        </div>
-        <div class="header-content">
-            <h1>Healthy Food Restaurant</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
     </header>
 
-    <section class="promo">
-        <div class="promo-content">
-            <h2>January’s Promo: Buy 1 Get 1 Free!</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.</p>
-            <button>Read More</button>
+    <section class="product-list py-12 px-4 bg-gray-50">
+        <h2 class="text-3xl font-semibold text-center mb-8">Our Products</h2>
+        <div class="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div th:each="product : ${products}" class="product-item bg-white rounded-lg shadow-md overflow-hidden">
+                <img th:src="${#strings.startsWith(product.imageUrl, 'http') ? product.imageUrl : '/images/' + product.imageUrl}" alt="Product Image" class="w-24 h-24 object-cover">
+                <div class="product-info p-4">
+                    <h3 th:text="${product.name}" class="text-xl font-semibold text-gray-800 mb-2"></h3>
+                    <p th:text="${product.price}" class="text-gray-600 text-sm">Price: $</p>
+                    <p th:text="${product.quantity}" class="text-gray-600 text-sm">Available: </p>
+                </div>
+            </div>
         </div>
     </section>
+    
 
     <footer>
         <div class="footer-content">
