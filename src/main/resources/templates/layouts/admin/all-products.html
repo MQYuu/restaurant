@@ -10,6 +10,7 @@
 <body class="bg-gray-100 p-6">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
         <h2 class="text-xl font-bold mb-4">Products</h2>
+        <a href="/dashboard/admin/products/new" class="mb-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add New Product</a>
         <table class="w-full border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
@@ -17,6 +18,7 @@
                     <th class="border p-2">Name</th>
                     <th class="border p-2">Price</th>
                     <th class="border p-2">Quantity</th>
+                    <th class="border p-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,10 +27,18 @@
                     <td class="border p-2" th:text="${product.name}"></td>
                     <td class="border p-2" th:text="${product.price}"></td>
                     <td class="border p-2" th:text="${product.quantity}"></td>
+                    <td class="border p-2">
+                        <!-- Nút sửa -->
+                        <a th:href="@{/dashboard/admin/products/edit/{id}(id=${product.id})}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+                        <!-- Nút xóa -->
+                        <form th:action="@{/dashboard/admin/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <a href="/dashboard/admin" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Dashboard</a>
+        <a href="/dashboard/admin/" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Dashboard</a>
     </div>
 </body>
 </html>

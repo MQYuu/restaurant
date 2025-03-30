@@ -29,7 +29,7 @@
                     <td class="border p-2" th:text="${customer.phone}"></td>
                     <td class="border p-2">
                         <!-- Nút sửa -->
-                        <a href="@{/dashboard/admin/customers/edit/{${customer.id}}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+                        <a th:href="@{/dashboard/admin/customers/edit/{id}(id=${customer.id})}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
                         <!-- Nút xóa -->
                         <form th:action="@{/dashboard/admin/customers/delete/{id}(id=${customer.id})}" method="get" style="display:inline;">
                             <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>

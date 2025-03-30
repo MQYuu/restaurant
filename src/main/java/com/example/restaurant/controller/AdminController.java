@@ -2,13 +2,10 @@ package com.example.restaurant.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.restaurant.entity.Customer;
+import com.example.restaurant.entity.Product;
 import com.example.restaurant.service.CustomerService;
 import com.example.restaurant.service.ProductService;
 
@@ -25,17 +22,17 @@ public class AdminController {
     }
 
     // Trang quản lý khách hàng
-    @GetMapping("/customers")
+    @GetMapping("/all-customers")
     public String customers(Model model) {
         model.addAttribute("customers", customerService.getAllCustomers());
-        return "layouts/admin/customers";
+        return "layouts/admin/all-customers";
     }
 
     // Trang quản lý sản phẩm
-    @GetMapping("/products")
+    @GetMapping("/all-products")
     public String products(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "layouts/admin/products";
+        return "layouts/admin/all-products";
     }
 
     // Trang Dashboard admin
@@ -47,41 +44,75 @@ public class AdminController {
     // Thêm khách hàng
     @GetMapping("/customers/new")
     public String showAddCustomerForm(Model model) {
-        model.addAttribute("customer", new Customer()); // Tạo đối tượng Customer rỗng cho form
-        return "layouts/admin/add-customer"; // Chỉ định view cho form thêm khách hàng
+        model.addAttribute("customer", new Customer());
+        return "layouts/admin/add-customer";
     }
 
     @PostMapping("/customers")
     public String addCustomer(@ModelAttribute Customer customer) {
-        customerService.addCustomer(customer); // Gọi service để thêm khách hàng
-        return "redirect:/dashboard/admin/customers"; // Sau khi thêm, chuyển hướng về trang danh sách khách hàng
+        customerService.addCustomer(customer);
+        return "redirect:/dashboard/admin/all-customers";
     }
 
     // Sửa khách hàng
     @GetMapping("/customers/edit/{id}")
     public String showEditCustomerForm(@PathVariable Integer id, Model model) {
-        Customer customer = customerService.getCustomerById(id); // Lấy khách hàng theo ID
-        if (customer == null) {
-            return "redirect:/dashboard/admin/customers"; // Nếu không tìm thấy, chuyển hướng về danh sách khách hàng
-        }
-        model.addAttribute("customer", customer); // Gửi đối tượng customer vào form sửa
-        return "layouts/admin/edit-customer"; // Chỉ định view cho form sửa khách hàng
+        model.addAttribute("customer", customerService.getCustomerById(id));
+        return "layouts/admin/edit-customer";
     }
 
-    @PostMapping("/customers/{id}")
+    @PostMapping("/customers/update/{id}")
     public String updateCustomer(@PathVariable Integer id, @ModelAttribute Customer customer) {
-        customer.setId(id); // Đảm bảo rằng ID của khách hàng không bị thay đổi
-        customerService.updateCustomer(customer); // Cập nhật khách hàng
-        return "redirect:/dashboard/admin/customers"; // Sau khi cập nhật, chuyển hướng về trang danh sách khách hàng
+        customer.setId(id);
+        customerService.updateCustomer(customer);
+        return "redirect:/dashboard/admin/all-customers";
     }
 
     // Xóa khách hàng
     @GetMapping("/customers/delete/{id}")
     public String deleteCustomer(@PathVariable Integer id) {
-        boolean isDeleted = customerService.deleteCustomer(id); // Xóa khách hàng theo ID
-        if (!isDeleted) {
-            return "redirect:/dashboard/admin/customers"; // Nếu không xóa được, quay lại trang danh sách khách hàng
+        customerService.deleteCustomer(id);
+        return "redirect:/dashboard/admin/all-customers";
+    }
+
+    // Thêm sản phẩm
+    @GetMapping("/products/new")
+    public String showAddProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "layouts/admin/add-product";
+    }
+
+    @PostMapping("/products/save")
+    public String addProduct(@ModelAttribute Product product) {
+        productService.addProduct(product);
+        return "redirect:/dashboard/admin/all-products";
+    }
+
+    // Sửa sản phẩm
+    @GetMapping("/products/edit/{id}")
+    public String showEditProductForm(@PathVariable Integer id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "layouts/admin/edit-product";
+    }
+
+    @PostMapping("/products/update/{id}")
+    public String updateProduct(@PathVariable Integer id, @ModelAttribute Product product) {
+        System.out.println("Product ID: " + id);
+        System.out.println("Product from form: " + product);
+    
+        if (product.getName() == null) {
+            throw new RuntimeException("Product is null or not binding correctly!");
         }
-        return "redirect:/dashboard/admin/customers"; // Sau khi xóa, chuyển hướng về trang danh sách khách hàng
+    
+        product.setId(id);
+        productService.updateProduct(product);
+        return "redirect:/dashboard/admin/all-products";
+    }       
+
+    // Xóa sản phẩm
+    @PostMapping("/products/delete/{id}")
+    public String deleteProduct(@PathVariable Integer id) {
+        productService.deleteProduct(id);
+        return "redirect:/dashboard/admin/all-products";
     }
 }
