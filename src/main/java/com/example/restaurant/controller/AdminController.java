@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.restaurant.entities.Customer;
+import com.example.restaurant.entity.Customer;
 import com.example.restaurant.service.CustomerService;
 import com.example.restaurant.service.ProductService;
 

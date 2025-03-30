@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Authorities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">User Roles</h2>
+        <p class="text-lg font-semibold" th:text="'Username: ' + ${user.username}"></p>
+
+        <h3 class="text-lg font-bold mt-4">Roles</h3>
+        <ul class="list-disc pl-5">
+            <li th:each="authority : ${authorities}" class="mt-2">
+                <span th:text="${authority.role}"></span>
+                <a th:href="@{/dashboard/system/authorities/delete/{userId}/{authorityId}(userId=${user.id}, authorityId=${authority.id})}" class="text-red-500 hover:underline">Remove</a>
+            </li>
+        </ul>
+
+        <form th:action="@{/dashboard/system/authorities}" method="post" class="mt-4 space-y-4">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <div>
+                <label for="role" class="block text-sm font-semibold">New Role</label>
+                <input type="text" id="role" name="authority" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+            </div>
+            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Add Role</button>
+        </form>
+        
+        <a href="/dashboard/system/users" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Users</a>
+    </div>
+</body>
+</html>

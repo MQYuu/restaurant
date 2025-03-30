@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Users List</h2>
+        <a href="/dashboard/system/users/new" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add User</a>
+        <table class="w-full mt-4 border">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="p-2 border">ID</th>
+                    <th class="p-2 border">Username</th>
+                    <th class="p-2 border">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}" class="text-center">
+                    <td class="p-2 border" th:text="${user.id}"></td>
+                    <td class="p-2 border" th:text="${user.username}"></td>
+                    <td class="p-2 border">
+                        <a th:href="@{/dashboard/system/users/edit/{id}(id=${user.id})}" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">Edit</a>
+                        <a th:href="@{/dashboard/system/users/delete/{id}(id=${user.id})}" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Delete</a>
+                        <a th:href="@{/dashboard/system/authorities/{id}(id=${user.id})}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Roles</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

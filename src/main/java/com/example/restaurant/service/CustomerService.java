@@ -1,6 +1,6 @@
 package com.example.restaurant.service;
 
-import com.example.restaurant.entities.Customer;
+import com.example.restaurant.entity.Customer;
 import com.example.restaurant.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
