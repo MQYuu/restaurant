@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.restaurant.entity.Product;
 import com.example.restaurant.service.ProductService;
@@ -26,6 +27,18 @@ public class ProductController {
         model.addAttribute("products", products);
 
         return "layouts/product";
+    }
+
+        // Hiển thị chi tiết sản phẩm
+    @GetMapping("/product/{id}")
+    public String showProductDetail(@PathVariable Integer id, Model model) {
+        Product product = productService.getProductById(id);
+        if (product == null) {
+            // Xử lý khi không tìm thấy sản phẩm
+            return "redirect:/listProduct";
+        }
+        model.addAttribute("product", product);
+        return "layouts/product-detail"; 
     }
 }
 

@@ -18,4 +18,6 @@ public class Product {
     private Integer quantity;
     
     private String imageUrl;
+
+    private String description;
 }
